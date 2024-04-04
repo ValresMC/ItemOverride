@@ -1,2 +1,2 @@
-# ItemOverwrite
-Allow you to overwrite item in pocketmine
+# ItemOverride
+Allow you to override item in pocketmine
