@@ -9,6 +9,7 @@ Just intergrate the virion itself into your plugin.
 ---
 
 ### Exemples :
+You must put it in the onLoad function in your Main class.
 ```php
 public function onLoad(): void {
         // Define the override item :
