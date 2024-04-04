@@ -1,6 +1,6 @@
 <?php
 
-namespace Overwrite;
+namespace Override;
 
 use Closure;
 use pocketmine\data\bedrock\item\SavedItemData;
@@ -11,16 +11,16 @@ use pocketmine\world\format\io\GlobalItemDataHandlers;
 
 final class Override
 {
-    protected static $itemDeserializers;
-    protected static $itemSerializers;
+    protected $deserializers;
+    protected $itemSerializers;
 
     public static function override(string $name, Item $item): void {
         StringToItemParser::getInstance()->override($name, fn() => $item);
     }
 
     public static function deserializer(string $typeName, Item $item, Closure $deserialize = null): void {
-        (function(Item $item, Closure $deserializer): void {
-            self::$itemDeserializers[$item->getTypeId()] = $deserializer;
+        (function(string $id, Closure $deserializer): void {
+            $this->deserializers[$id] = $deserializer;
         })->call(
             GlobalItemDataHandlers::getDeserializer(),
             $typeName,
@@ -30,7 +30,7 @@ final class Override
 
     public static function serializer(string $typeName, Item $item, Closure $serialize = null): void {
         (function(Item $item, Closure $serializer): void {
-            self::$itemSerializers[$item->getTypeId()] = $serializer;
+            $this->itemSerializers[$item->getTypeId()] = $serializer;
         })->call(
             GlobalItemDataHandlers::getSerializer(),
             $item,
